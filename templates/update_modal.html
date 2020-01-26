@@ -1,0 +1,28 @@
+<script type="text/javascript">
+    function loading() {
+        $('#updatePrompt').hide();
+        $('#loadingPrompt').show();
+    }
+</script>
+
+<div class="modal fade" id="updatePrompt" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Update Database</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Performing an update requires an internet connection and might take a while.</p>
+                <form action="/delete_cache/{{list_name}}/{{page_num}}">
+                    <div class="float-right">
+                        <button class="btn" data-dismiss="modal">Cancel</button>
+                        <button class="btn btn-dark" onclick="loading();">Confirm</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="loadingPrompt" role="dialog"></div>

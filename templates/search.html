@@ -1,0 +1,143 @@
+{% extends "layout.html" %}
+{% block content %}
+
+{% set params = 'search_string=' %}
+{% if search_string_enc %} {% set params = params + search_string_enc %} {% endif %}
+{% if map_mode and marker and lat and lon and current_city %}
+    {% set params = params + '&marker=' + marker + '&lat=' + lat + '&lon=' + lon + '&current_city=' + current_city %}
+{% endif %}
+
+{% if map_mode %}
+<div class="container">
+<div class="row">
+<div class="col-lg-6 mb-3">
+{% include 'map.html' %}
+</div>
+<div class="col-lg-6">
+{% endif %}
+
+{% if map_mode %}
+<div class="content-section mb-3">
+{% else %}
+<div class="content-section col-lg-8 offset-lg-2 mb-3">
+{% endif %}
+    <form action="/search/{{ list_name }}/1">
+        <div class="input-group">
+            <input class="form-control" name="search_string" value="{{ search_string }}"></input>
+            {% if map_mode %}
+                <input type="hidden" name="marker" value="{{ marker }}"></input>
+                <input type="hidden" name="lon" value="{{ lon }}"></input>
+                <input type="hidden" name="lat" value="{{ lat }}"></input>
+                <input type="hidden" name="current_city" value="{{ current_city }}"></input>
+            {% endif %}
+            <div class="input-group-append">
+                <button class="btn btn-dark fixed-width-btn">Search</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="content-section mb-3 d-flex justify-content-center options-section">
+    <a href="" data-toggle="modal" data-target="#info">About</a>
+    <a href="" data-toggle="modal" data-target="#visibleFields">Visible Fields</a>
+    <a href="" data-toggle="modal" data-target="#searchFieldInstructions">Help</a>
+    {% if not single_list %}<a href="/">Audiences</a>{% endif %}
+    <a href="" data-toggle="modal" data-target="#updatePrompt">Update</a>
+</div>
+
+{% if map_mode %}
+<div class="content-section mb-3">
+{% if not city_and_country_fields_exist %}<div class="alert alert-secondary" role="alert">Could not find fields named "City" and "Country".</div>{% endif %}
+{% else %}
+<div class="content-section col-lg-10 offset-lg-1 mb-3">
+{% endif %}
+    {% if error_string %}
+        <div class="alert alert-secondary" role="alert"> {{ error_string }} </div>
+    {% else %}
+        {% if alert_string %} <div class="alert alert-secondary" role="alert"> {{ alert_string }} </div> {% endif %}
+        {% if res %}
+            <div class="scroll-table-container-container">
+            <div class="scroll-table-container">
+
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <th></th>
+                            {% for i in header_info %}
+                                {% if header_vis[i] %}
+                                        <th><a href="/search/{{ list_name }}/1?sort_field={{ i }}&{{ params }}">{{ header_info[i]['label'] }}</a>
+                                        {% if i == sort_col %}
+                                            &#8595;
+                                        {% endif %}
+                                        </th>
+                                {% endif %}
+                            {% endfor %}
+                        </tr>
+                        {% for r in res[(page_num-1)*n_rows_disp:page_num*n_rows_disp] %}
+                            <tr>
+                                <td>
+                                    <a href={{ r.get('profile_link') }} rel="noopener noreferrer" target="_blank" style="text-decoration: none;">
+                                        &#8592;
+                                    </a>
+                                </td>
+                                {% for i in header_info %}
+                                    {% if header_vis[i] %}
+                                        {% if i == 'email_address' %}
+                                            <td>
+                                                <a href=mailto:{{ r.get('fields').get(i) }}>
+                                                    {{ r.get('fields').get(i) }}
+                                                </a>
+                                            </td>
+                                        {% elif header_info[i]['is_hyperlink'] %}
+                                            <td>
+                                                <a href={{ r.get('fields').get(i) }} rel="noopener noreferrer" target="_blank">
+                                                    {{ r.get('fields').get(i) }}
+                                                </a>
+                                            </td>
+                                        {% else %}
+                                            <td>{{ r.get('fields').get(i) }}</td>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            </div>
+        {% endif %}
+    {% endif %}
+</div>
+
+
+<div class="d-flex justify-content-center mb-3" style="font-size: 90%;">
+    <a href="/search/{{ list_name }}/1?{{ params }}" class="px-2">first</a>
+    &bull;
+    {% if page_num > 1 %}
+        <a href="/search/{{ list_name }}/{{ page_num - 1 }}?{{ params }}" class="px-2">prev</a>
+    {% else %}
+        <span style="color:#999", class="px-2">prev</span>
+    {% endif %}
+    &bull;
+    {% if page_num * n_rows_disp < n_entries %}
+        <a href="/search/{{ list_name }}/{{page_num + 1}}?{{ params }}" class="px-2">next</a>
+    {% else %}
+        <span style="color:#999", class="px-2">next</span>
+    {% endif %}
+    &bull;
+    <a href="/search/{{ list_name }}/{{ 1 + n_entries // n_rows_disp }}?{{ params }}" class="px-2">last</a>
+</div>
+
+{% include 'visible_fields_modal.html' %}
+{% include 'help_modal.html' %}
+{% include 'info_modal.html' %}
+{% include 'logout_modal.html' %}
+{% include 'update_modal.html' %}
+
+{% if map_mode %}
+</div>
+</div>
+</div>
+{% endif %}
+
+{% endblock content %}

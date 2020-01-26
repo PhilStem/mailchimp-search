@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="content-section col-md-4 offset-md-4">
+    <h3>Audiences</h3>
+        <ul class="list-group">
+            {% for ls in list_of_list_dicts %}
+                <li class="list-group-item">
+                    <h4><a href="/search/{{ ls.get('name') }}/1">{{ ls.get('name') }}</a></h4>
+                    Created {{ ls.get('date_created') }}
+                </li>
+            {% endfor %}
+        </ul>
+
+</div>
+{% endblock content %}

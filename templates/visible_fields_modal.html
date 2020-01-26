@@ -1,0 +1,32 @@
+<div class="modal fade" id="visibleFields" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Visible Fields</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form method="POST">
+                    {% for i in header_info %}
+                        {% if i != 'email_address' %}
+                            <div class="custom-control custom-checkbox">
+                                {% if header_vis[i] %}
+                                    <input type="checkbox" class="custom-control-input" value="a" id={{ i }} name={{ i }} checked>
+                                {% else %}
+                                    <input type="checkbox" class="custom-control-input" value="a" id={{ i }} name={{ i }}>
+                                {% endif %}
+                                <label class="custom-control-label unselectable" for={{ i }}>
+                                    {{ header_info[i]['label'] }}
+                                </label>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    <hr>
+                    <div class="content-section d-flex justify-content-center">
+                        <button type="submit" class="btn btn-block">Confirm</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="content-section col-md-6 offset-md-3 mb-3">
+    <div class="alert alert-secondary">
+        {{ error_msg }}
+    </div>
+</div>
+<div class="content-section col-md-6 offset-md-3 mb-3">
+    {% if list_name and page_num %}
+        <form action="/search/{{ list_name }}/{{ page_num }}">
+    {% else %}
+        <form action="/">
+    {% endif %}
+        <button class="btn btn-block">Cancel</button>
+    </form>
+</div>
+{% if list_name and page_num %}
+    <div class="content-section col-md-6 offset-md-3 mb-3">
+        <form action="/delete_cache/{{ list_name }}/{{ page_num }}">
+            <button class="btn btn-dark btn-block">Retry</button>
+        </form>
+    </div>
+{% endif %}
+{% endblock content %}

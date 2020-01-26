@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="content-section col-md-6 offset-md-3 mb-3">
+
+    <form action="/login">
+        <div class="input-group">
+            <input class="form-control" placeholder="API Key" name="api_key">
+            <div class="input-group-append">
+                <button class="btn btn-dark">Confirm</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="content-section mb-3 d-flex justify-content-center options-section">
+    <a href="https://admin.mailchimp.com/account/api" rel="noopener noreferrer" target="_blank">What is my API Key?</a>
+</div>
+{% if error_msg %}
+    <div class="content-section col-md-6 offset-md-3 mb-3">
+        <div class="alert alert-secondary" role="alert">
+            {{ error_msg }}
+        </div>
+    </div>
+{% endif %}
+{% endblock content %}

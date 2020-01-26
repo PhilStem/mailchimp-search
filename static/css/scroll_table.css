@@ -1,0 +1,38 @@
+.scroll-table-container-container {
+    overflow-x: scroll;
+}
+
+.scroll-table-container {
+    /* overflow-x: scroll; */
+    padding: 0;
+    border: 1px solid #dee2e6;
+    margin-bottom: 1rem;
+    /* background-color: #ffffff; */
+    /* max-height: 500px; */
+}
+
+.scroll-table-container > table > tbody > tr > td,
+.scroll-table-container > table > tbody > tr > th {
+    background-color: #ffffff;
+    white-space: nowrap;
+    padding: 0.3rem;
+}
+
+.scroll-table-container > table {
+    font-size: 80%;
+    margin-bottom: 0;
+}
+
+/* only for stationary first row */
+/*
+.scroll-table-container > table > tr > td:first-child,
+th:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+}
+
+.scroll-table-container > table > tr > th:first-child {
+    z-index: 2;
+}
+*/

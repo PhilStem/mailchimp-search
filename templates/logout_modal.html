@@ -1,0 +1,19 @@
+<div class="modal fade" id="logoutPrompt" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Logout</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>A new login requires your API Key. If you use a different API Key the database will have to be redownloaded.</p>
+                <form action="/logout">
+                    <div class="float-right">
+                        <button class="btn" data-dismiss="modal">Cancel</button>
+                        <button class="btn btn-dark">Confirm</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
